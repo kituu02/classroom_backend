@@ -34,17 +34,15 @@ create table tlogin (
 
 create table classrooms (
     cid serial primary key,
-    brnach text,
+    branch text,
     section text,
     subject text,
     tid numeric,
-    batch text,
-    material_links text[][]
-    mat_id numeric,
+    batch text
 );
 
 create table material_links(
-    mat_id serial primary key,
+    cid numeric,
     mat_name text,
     mat_link text
 );

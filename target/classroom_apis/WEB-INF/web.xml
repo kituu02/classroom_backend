@@ -21,6 +21,23 @@
     <servlet-name>tregister</servlet-name>
     <servlet-class>com.example.tregister</servlet-class>    
   </servlet>
+  <servlet>
+    <servlet-name>thome</servlet-name>
+    <servlet-class>com.example.thome</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>shome</servlet-name>
+    <servlet-class>com.example.shome</servlet-class>    
+  </servlet>
+  
+  <servlet>
+    <servlet-name>TeacherRoom</servlet-name>
+    <servlet-class>com.example.TeacherRoom</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>StudentRoom</servlet-name>
+    <servlet-class>com.example.TeacherRoom</servlet-class>    
+  </servlet>
   
 
   <servlet-mapping>
@@ -38,6 +55,22 @@
   <servlet-mapping>
     <servlet-name>tregister</servlet-name>
     <url-pattern>/tregister</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>thome</servlet-name>
+    <url-pattern>/thome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>shome</servlet-name>
+    <url-pattern>/shome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TeacherRoom</servlet-name>
+    <url-pattern>/TeacherRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudentRoom</servlet-name>
+    <url-pattern>/StudentRoom</url-pattern>
   </servlet-mapping>
 
 
