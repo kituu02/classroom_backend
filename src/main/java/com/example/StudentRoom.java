@@ -154,26 +154,22 @@ public class StudentRoom extends HttpServlet{
                 ResultSet rs = st.executeQuery(query);
                 String tid = rs.getString("tid");
                 int sender = rs.getInt("sender");
-                    String name = new String();
-                    JsonArray list_of_materials = new JsonArray();
-                    JsonObject new_obj = new JsonObject();
-                    if(sender==1){
-                        String sid = rs.getString("sid");
-                        String innerquery = "select * from sdetails where sid = '"+sid+"';";
-                        Statement st1 = con.createStatement();
-                        ResultSet rs1 = st1.executeQuery(innerquery);
-                        rs1.next();
-                        name = rs1.getString("name");
-                        new_obj.addProperty("sender","student");
-                    }else if(sender==2){
-                        String innerquery = "select * from tdetails where tid = '"+tid+"';";
-                        Statement st1 = con.createStatement();
-                        ResultSet rs1 = st1.executeQuery(innerquery);
-                        rs1.next();
-                        name = rs1.getString("name");
-                        new_obj.addProperty("sender","teacher");
-                    }
-                    new_obj.addProperty("name", name);
+                String name = new String();
+                JsonArray list_of_messages = new JsonArray();
+                JsonObject new_obj = new JsonObject();
+                String query1 = "select * from sdetails where sid = '"+login_id+"';";
+                String query2 = "select * from tdetails where tid = '"+tid+"';";
+                Statement st1 = con.createStatement();
+                ResultSet rs1 = st1.executeQuery(query1);
+                rs1.next();
+                String student_name = rs1.getString("name");
+                Statement st2 = con.createStatement();
+                ResultSet rs2 = st2.executeQuery(query2);
+                rs2.next();
+                String teacher_name = rs2.getString("name");
+                
+                new_obj.addProperty("student name", student_name);
+                new_obj.addProperty("faculty name", teacher_name);
             }
             else{
                 object.addProperty("status","failed");

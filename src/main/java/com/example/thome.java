@@ -82,7 +82,7 @@ public class thome extends HttpServlet {
                     new_obj.addProperty("cid",rs.getString("cid"));
                     new_obj.addProperty("branch",rs.getString("branch"));
                     new_obj.addProperty("section",rs.getString("section"));
-                    new_obj.addProperty("tid",rs.getInt("tid"));
+                    new_obj.addProperty("subject",rs.getString("subject"));
                     new_obj.addProperty("batch",rs.getString("batch"));
                     list_of_classrooms.add(new_obj);
                     //new_obj.addProperty("detail", list_of_classrooms.toString());
