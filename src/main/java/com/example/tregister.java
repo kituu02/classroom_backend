@@ -34,7 +34,7 @@ public class tregister extends HttpServlet{
         String password = request.getParameter("password");
         JsonObject object = new JsonObject();
 
-        String query1 = "insert into tdetails (name,email,branch,ph_no) values ('"+name+"','"+email+"','"+branch+"','"+phno+"');";
+        String query1 = "insert into tdetails (tname,email,branch,phno) values ('"+name+"','"+email+"','"+branch+"','"+phno+"');";
         String query2 = "insert into tlogin (email,password) values ('"+email+"','"+password+"');";
 
 

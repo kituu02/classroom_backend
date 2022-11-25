@@ -71,19 +71,32 @@ public class StudentRoom extends HttpServlet{
                 JsonObject new_obj = new JsonObject();
                 if(rs.next()){
                     out.print("fcuk");
-                    while(rs.next()){
                     String sid = rs.getString("sid");
                     String innerquery = "select * from sdetails where sid = '"+sid+"';";
-                    ResultSet rs1 = st.executeQuery(innerquery);
-                    String name = rs1.getString("name");
                     String message = rs.getString("message");
                     Array arr = rs.getArray("reactions");
                     String[] zips = (String[])arr.getArray();
-                    new_obj.addProperty("name", name);
-                    new_obj.addProperty("message",message);
-                    new_obj.addProperty("array_length",zips.length);
+                    ResultSet rs1 = st.executeQuery(innerquery);
+                    String name = rs1.getString("name");
+                    out.print(name);
+                    
+                    //new_obj.addProperty("name", name);
+                    //new_obj.addProperty("message",message);
+                    //new_obj.addProperty("array_length",zips.length);
                     list_of_messages.add(new_obj);
-                    }
+                    // while(rs.next()){
+                    // sid = rs.getString("sid");
+                    // innerquery = "select * from sdetails where sid = '"+sid+"';";
+                    // rs1 = st.executeQuery(innerquery);
+                    // name = rs1.getString("name");
+                    // message = rs.getString("message");
+                    // arr = rs.getArray("reactions");
+                    // zips = (String[])arr.getArray();
+                    // new_obj.addProperty("name", name);
+                    // new_obj.addProperty("message",message);
+                    // new_obj.addProperty("array_length",zips.length);
+                    // list_of_messages.add(new_obj);
+                    // }
                     object.addProperty("statues", "success");
                     object.addProperty("status code", "200");
                     object.add("details", list_of_messages);
@@ -110,6 +123,6 @@ public class StudentRoom extends HttpServlet{
             object.addProperty("status code","500");
             object.addProperty("message",e.getMessage());
         }
-        //out.print(object);
+        out.print(object);
     }
 }
