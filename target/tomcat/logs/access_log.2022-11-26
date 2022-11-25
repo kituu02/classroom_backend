@@ -1,3 +1,0 @@
-0:0:0:0:0:0:0:1 - - [26/Nov/2022:01:01:08 +0530] "GET /classroom_apis/StudentRoom?choice=2&cid=1&login_id=1&message=ntg HTTP/1.1" 200 173 http-bio-8081-exec-2 1159
-0:0:0:0:0:0:0:1 - - [26/Nov/2022:01:01:29 +0530] "GET /classroom_apis/StudentRoom?cid=1&login_id=1&message=ntg&choice=3 HTTP/1.1" 200 152 http-bio-8081-exec-3 162
-0:0:0:0:0:0:0:1 - - [26/Nov/2022:01:01:38 +0530] "GET /classroom_apis/StudentRoom?cid=1&login_id=1&message=ntg&choice=1 HTTP/1.1" 200 223 http-bio-8081-exec-4 465
