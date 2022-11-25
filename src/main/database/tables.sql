@@ -52,7 +52,7 @@ create table forms_message_table (
     message text,
     cid numeric,
     sid numeric,
-    reactions numeric[]
+    reactions numeric
 );
 
 create table individual_message_table (
@@ -60,5 +60,6 @@ create table individual_message_table (
     tid numeric,
     cid numeric,
     sid numeric,
+    sender numeric,
     message text
 );

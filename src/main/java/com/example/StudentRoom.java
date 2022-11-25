@@ -28,6 +28,7 @@ public class StudentRoom extends HttpServlet{
         PrintWriter out = response.getWriter();
         int cid = Integer.parseInt(request.getParameter("cid"));
         int choice = Integer.parseInt(request.getParameter("choice"));
+        int sid  = Integer.parseInt(request.getParameter("sid"));
         //out.print(choice);
         JsonObject object = new JsonObject();
         try{
@@ -52,7 +53,7 @@ public class StudentRoom extends HttpServlet{
                         new_obj.addProperty("Rollno",rs1.getString("Rollno"));
                         list_of_students.add(new_obj);
                     }
-                    object.addProperty("statues", "success");
+                    object.addProperty("status", "success");
                     object.addProperty("status code", "200");
                     object.add("details", list_of_students);
                 }
@@ -70,30 +71,112 @@ public class StudentRoom extends HttpServlet{
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 if(rs.next()){
-                    out.println("fcuk..........");
                     String sid = rs.getString("sid");
                     String innerquery = "select * from sdetails where sid = '"+sid+"';";
                     String message = rs.getString("message");
-                    Array arr = rs.getArray("reactions");
-                    //int len_of_array = ((String[])arr.getArray()).length;
-                    ResultSet rs1 = st.executeQuery(innerquery);
+                    int reactions = rs.getInt("reactions");
+                    out.print(message);
+                    Connection con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
+                    Statement st1 = con1.createStatement();
+                    ResultSet rs1 = st1.executeQuery(innerquery);
+                    String name = new String();
+                    if(rs1.next()){
+                        name = rs1.getString("name");
+                    }
+                    new_obj.addProperty("name", name);
+                    new_obj.addProperty("message",message);
+                    new_obj.addProperty("array_length",reactions);
+                    list_of_messages.add(new_obj);
                     out.println(sid);
-
+                    while(rs.next()){
+                        new_obj = new JsonObject();
+                    sid = rs.getString("sid");
+                    innerquery = "select * from sdetails where sid = '"+sid+"';";
+                    message = rs.getString("message");
+                    reactions = rs.getInt("reactions");
+                    con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
+                    st1 = con1.createStatement();
+                    rs1 = st1.executeQuery(innerquery);
+                    if(rs1.next()){
+                        name = rs1.getString("name");
+                    }
+                    new_obj.addProperty("name", name);
+                    new_obj.addProperty("message",message);
+                    new_obj.addProperty("array_length",reactions);
+                    list_of_messages.add(new_obj);
+                    out.println(sid);
+                    }
+                    object.addProperty("status", "success");
+                object.addProperty("status code", "200");
+                object.add("details", list_of_messages);
                 }
                 else{
                     object.addProperty("status","failed");
                     object.addProperty("status code","404");
                     object.addProperty("message","Invalid");
                 }
-                // object.addProperty("statues", "success");
-                // object.addProperty("status code", "200");
-                // object.add("details", list_of_messages);
+                
             }
             else if(choice ==3){
                 //material
+                String query = "select * from material_links where cid = '"+cid+"';";
+                ResultSet rs = st.executeQuery(query);
+                if(rs.next()){
+                    String mat_name = rs.getString("mat_name");
+                    String mat_link = rs.getString("mat_link");
+                    int sender = rs.getInt("sender");
+                    String name = new String();
+                    JsonArray list_of_materials = new JsonArray();
+                    JsonObject new_obj = new JsonObject();
+                    if(sender==1){
+                        String sid = rs.getString("sid");
+                        String innerquery = "select * from sdetails where sid = '"+sid+"';";
+                        Statement st1 = con.createStatement();
+                        ResultSet rs1 = st1.executeQuery(innerquery);
+                        rs1.next();
+                        name = rs1.getString("name");
+                        new_obj.addProperty("sender","student");
+                    }else if(sender==2){
+                        String tid = rs.getString("tid");
+                        String innerquery = "select * from tdetails where tid = '"+tid+"';";
+                        Statement st1 = con.createStatement();
+                        ResultSet rs1 = st1.executeQuery(innerquery);
+                        rs1.next();
+                        name = rs1.getString("name");
+                        new_obj.addProperty("sender","teacher");
+                    }
+                    new_obj.addProperty("name", name);
+                    new_obj.addProperty("material_name", mat_name);
+                    new_obj.addProperty("material_link", mat_link);
+                    list_of_materials.add(new_obj);
+                    while(rs.next()){
+                        mat_name = rs.getString("mat_name");
+                        mat_link = rs.getString("mat_link");
+                        new_obj = new JsonObject();
+                        new_obj.addProperty("material_name", mat_name);
+                        new_obj.addProperty("material_link", mat_link);
+                        list_of_materials.add(new_obj);
+                    }
+                    object.addProperty("status", "success");
+                    object.addProperty("status code", "200");
+                    object.add("details", list_of_materials);
+                }
+                else{
+                    object.addProperty("status","failed");
+                    object.addProperty("status code","404");
+                    object.addProperty("message","Invalid");
+                }
             }
             else if(choice==4){
                 //Talk to teacher
+                // String query = "select * from individual_message_table where sid '"+sid+"'';";
+                // ResultSet rs = st.executeQuery(query);
+
+            }
+            else{
+                object.addProperty("status","failed");
+                object.addProperty("status code","404");
+                object.addProperty("message","Invalid");
             }
         }
         catch(Exception e){
