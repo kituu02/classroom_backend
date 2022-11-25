@@ -1,0 +1,88 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+
+  <filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+
+  </filter>
+    <filter-mapping>
+    <filter-name>CORS</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>slogin</servlet-name>
+    <servlet-class>com.example.slogin</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>sregister</servlet-name>
+    <servlet-class>com.example.sregister</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>tlogin</servlet-name>
+    <servlet-class>com.example.tlogin</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>tregister</servlet-name>
+    <servlet-class>com.example.tregister</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>thome</servlet-name>
+    <servlet-class>com.example.thome</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>shome</servlet-name>
+    <servlet-class>com.example.shome</servlet-class>    
+  </servlet>
+  
+  <servlet>
+    <servlet-name>TeacherRoom</servlet-name>
+    <servlet-class>com.example.TeacherRoom</servlet-class>    
+  </servlet>
+  <servlet>
+    <servlet-name>StudentRoom</servlet-name>
+    <servlet-class>com.example.StudentRoom</servlet-class>    
+  </servlet>
+  
+
+  <servlet-mapping>
+    <servlet-name>slogin</servlet-name>
+    <url-pattern>/slogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>sregister</servlet-name>
+    <url-pattern>/sregister</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>tlogin</servlet-name>
+    <url-pattern>/tlogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>tregister</servlet-name>
+    <url-pattern>/tregister</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>thome</servlet-name>
+    <url-pattern>/thome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>shome</servlet-name>
+    <url-pattern>/shome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TeacherRoom</servlet-name>
+    <url-pattern>/TeacherRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudentRoom</servlet-name>
+    <url-pattern>/StudentRoom</url-pattern>
+  </servlet-mapping>
+
+
+</web-app>

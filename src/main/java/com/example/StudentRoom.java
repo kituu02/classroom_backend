@@ -70,56 +70,9 @@ public class StudentRoom extends HttpServlet{
                     String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+cid+"','"+login_id+"',0); ";
                     Statement st0 = con.createStatement();
                     int result = st0.executeUpdate(query0);
-                    if(result>0){
+                if(result>0){
                         object.addProperty("status", "success");
                         object.addProperty("status code", "200");
-                    }
-                    
-                //discussions forms
-                String query = "select * from forms_message_table where cid = '"+cid+"';";
-                //out.print(cid);
-                ResultSet rs = st.executeQuery(query);
-                JsonArray list_of_messages = new JsonArray();
-                JsonObject new_obj = new JsonObject();
-                if(rs.next()){
-                    String sid = rs.getString("sid");
-                    String innerquery = "select * from sdetails where sid = '"+sid+"';";
-                    String message = rs.getString("message");
-                    int reactions = rs.getInt("reactions");
-                    //out.print(message);
-                    Connection con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
-                    Statement st1 = con1.createStatement();
-                    ResultSet rs1 = st1.executeQuery(innerquery);
-                    String name = new String();
-                    if(rs1.next()){
-                        name = rs1.getString("name");
-                    }
-                    new_obj.addProperty("name", name);
-                    new_obj.addProperty("message",message);
-                    new_obj.addProperty("array_length",reactions);
-                    list_of_messages.add(new_obj);
-                    //out.println(sid);
-                    while(rs.next()){
-                        new_obj = new JsonObject();
-                    sid = rs.getString("sid");
-                    innerquery = "select * from sdetails where sid = '"+sid+"';";
-                    message = rs.getString("message");
-                    reactions = rs.getInt("reactions");
-                    con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
-                    st1 = con1.createStatement();
-                    rs1 = st1.executeQuery(innerquery);
-                    if(rs1.next()){
-                        name = rs1.getString("name");
-                    }
-                    new_obj.addProperty("name", name);
-                    new_obj.addProperty("message",message);
-                    new_obj.addProperty("array_length",reactions);
-                    list_of_messages.add(new_obj);
-                    //out.println(sid);
-                    }
-                    object.addProperty("status", "success");
-                object.addProperty("status code", "200");
-                object.add("details", list_of_messages);
                 }
                 else{
                     object.addProperty("status","failed");
@@ -263,10 +216,25 @@ public class StudentRoom extends HttpServlet{
                 
 
             }
-            else{
-                object.addProperty("status","failed");
-                object.addProperty("status code","404");
-                object.addProperty("message","Invalid");
+            else if(choice==5){
+                String new_message = request.getParameter("new_message");
+                String query0 = "select * from classrooms where cid = '"+cid+"';";
+                Statement st0 = con.createStatement();
+                ResultSet rs0 = st0.executeQuery(query0);
+                rs0.next();
+                String tid = rs0.getString("tid");
+                st0.close();
+                String query = "insert into individual_message_table values(default,'"+tid+"','"+cid+"','"+login_id+"','1','"+new_message+"');";
+                int result = st.executeUpdate(query);
+                if(result>0){
+                    object.addProperty("status","success");
+                    object.addProperty("status code","200");
+                }
+                else{
+                    object.addProperty("status","failed");
+                    object.addProperty("status code","404");
+                    object.addProperty("message","Invalid");
+                }
             }
         }
         catch(Exception e){
