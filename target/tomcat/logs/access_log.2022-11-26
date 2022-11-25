@@ -1,2 +1,0 @@
-0:0:0:0:0:0:0:1 - - [26/Nov/2022:01:33:44 +0530] "GET /classroom_apis/StudentRoom?cid=1&login_id=1&message=testing&choice=5 HTTP/1.1" 200 40 http-bio-8081-exec-2 500
-0:0:0:0:0:0:0:1 - - [26/Nov/2022:01:34:24 +0530] "GET /classroom_apis/StudentRoom?cid=1&login_id=1&new_message=testing&choice=5 HTTP/1.1" 200 40 http-bio-8081-exec-3 166
