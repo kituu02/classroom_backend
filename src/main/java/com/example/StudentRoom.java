@@ -28,7 +28,7 @@ public class StudentRoom extends HttpServlet{
         PrintWriter out = response.getWriter();
         int cid = Integer.parseInt(request.getParameter("cid"));
         int choice = Integer.parseInt(request.getParameter("choice"));
-        int sid  = Integer.parseInt(request.getParameter("sid"));
+        int login_id  = Integer.parseInt(request.getParameter("login_id"));
         //out.print(choice);
         JsonObject object = new JsonObject();
         try{
@@ -121,31 +121,12 @@ public class StudentRoom extends HttpServlet{
                 //material
                 String query = "select * from material_links where cid = '"+cid+"';";
                 ResultSet rs = st.executeQuery(query);
+                JsonArray list_of_materials = new JsonArray();
+                JsonObject new_obj = new JsonObject();
                 if(rs.next()){
                     String mat_name = rs.getString("mat_name");
                     String mat_link = rs.getString("mat_link");
-                    int sender = rs.getInt("sender");
-                    String name = new String();
-                    JsonArray list_of_materials = new JsonArray();
-                    JsonObject new_obj = new JsonObject();
-                    if(sender==1){
-                        String sid = rs.getString("sid");
-                        String innerquery = "select * from sdetails where sid = '"+sid+"';";
-                        Statement st1 = con.createStatement();
-                        ResultSet rs1 = st1.executeQuery(innerquery);
-                        rs1.next();
-                        name = rs1.getString("name");
-                        new_obj.addProperty("sender","student");
-                    }else if(sender==2){
-                        String tid = rs.getString("tid");
-                        String innerquery = "select * from tdetails where tid = '"+tid+"';";
-                        Statement st1 = con.createStatement();
-                        ResultSet rs1 = st1.executeQuery(innerquery);
-                        rs1.next();
-                        name = rs1.getString("name");
-                        new_obj.addProperty("sender","teacher");
-                    }
-                    new_obj.addProperty("name", name);
+                    new_obj = new JsonObject();
                     new_obj.addProperty("material_name", mat_name);
                     new_obj.addProperty("material_link", mat_link);
                     list_of_materials.add(new_obj);
@@ -169,9 +150,30 @@ public class StudentRoom extends HttpServlet{
             }
             else if(choice==4){
                 //Talk to teacher
-                // String query = "select * from individual_message_table where sid '"+sid+"'';";
-                // ResultSet rs = st.executeQuery(query);
-
+                String query = "select * from individual_message_table where sid = '"+login_id+"'';";
+                ResultSet rs = st.executeQuery(query);
+                String tid = rs.getString("tid");
+                int sender = rs.getInt("sender");
+                    String name = new String();
+                    JsonArray list_of_materials = new JsonArray();
+                    JsonObject new_obj = new JsonObject();
+                    if(sender==1){
+                        String sid = rs.getString("sid");
+                        String innerquery = "select * from sdetails where sid = '"+sid+"';";
+                        Statement st1 = con.createStatement();
+                        ResultSet rs1 = st1.executeQuery(innerquery);
+                        rs1.next();
+                        name = rs1.getString("name");
+                        new_obj.addProperty("sender","student");
+                    }else if(sender==2){
+                        String innerquery = "select * from tdetails where tid = '"+tid+"';";
+                        Statement st1 = con.createStatement();
+                        ResultSet rs1 = st1.executeQuery(innerquery);
+                        rs1.next();
+                        name = rs1.getString("name");
+                        new_obj.addProperty("sender","teacher");
+                    }
+                    new_obj.addProperty("name", name);
             }
             else{
                 object.addProperty("status","failed");
