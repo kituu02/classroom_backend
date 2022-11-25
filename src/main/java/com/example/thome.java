@@ -28,7 +28,7 @@ public class thome extends HttpServlet {
         response.setContentType("JSON");
         PrintWriter out = response.getWriter();
         // Take parameters from user.
-        int tid = 1;
+        int tid = Integer.parseInt(request.getParameter("tid"));
         JsonObject object = new JsonObject();
         int choice = Integer.parseInt(request.getParameter("choice"));
         if(choice==1){

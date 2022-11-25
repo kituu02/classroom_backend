@@ -28,9 +28,9 @@ public class shome extends HttpServlet {
         response.setContentType("JSON");
         PrintWriter out = response.getWriter();
         // Take parameters from user.
-        int sid = 1;
+        //int sid = 1;
         JsonObject object = new JsonObject();
-        //int choice = Integer.parseInt(request.getParameter("choice"));
+        int sid = Integer.parseInt(request.getParameter("sid"));
         String query = "select * from sdetails where sid = '"+sid+"';";
             try {
                 //out.print("hi");
