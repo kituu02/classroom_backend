@@ -155,38 +155,41 @@ public class StudentRoom extends HttpServlet{
                 ResultSet rs0 = st0.executeQuery(query0);
                 rs0.next();
                 String tid = rs0.getString("tid");
-                
+                out.println(tid);
+                out.print("hii1");
                 String query1 = "select * from sdetails where sid = '"+login_id+"';";
                 String query2 = "select * from tdetails where tid = '"+tid+"';";
                 Statement st1 = con.createStatement();
                 ResultSet rs1 = st1.executeQuery(query1);
                 rs1.next();
                 String student_name = rs1.getString("name");
+                out.println("hii2");
                 Statement st2 = con.createStatement();
                 ResultSet rs2 = st2.executeQuery(query2);
-                rs2.next();
-                String teacher_name = rs2.getString("tname");
+                // rs2.next();
+                // String teacher_name = rs2.getString("tname");
+                out.print("hii3");
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 String query = "select * from individual_message_table where sid = '"+login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
-                ResultSet rs = st.executeQuery(query);
-                rs.next();
-                while(rs.next()){
-                    int sender = rs.getInt("sender");
-                    String message = rs.getString("message");
-                    if(sender==0){
-                        new_obj.addProperty("sender", "teacher");
-                    }
-                    else{
-                        new_obj.addProperty("sender", "student");
-                    }
-                    new_obj.addProperty("message", message);
-                    list_of_messages.add(new_obj);
-                }
+                // ResultSet rs = st.executeQuery(query);
+                // rs.next();
+                // while(rs.next()){
+                //     int sender = rs.getInt("sender");
+                //     String message = rs.getString("message");
+                //     if(sender==0){
+                //         new_obj.addProperty("sender", "teacher");
+                //     }
+                //     else{
+                //         new_obj.addProperty("sender", "student");
+                //     }
+                //     new_obj.addProperty("message", message);
+                //     list_of_messages.add(new_obj);
+                // }
                 object.addProperty("status","success");
                 object.addProperty("status code","200");
                 object.addProperty("student name", student_name);
-                object.addProperty("faculty name", teacher_name);
+                //object.addProperty("faculty name", teacher_name);
                 object.add("messages", list_of_messages);
                 
                 
