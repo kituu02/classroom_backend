@@ -33,7 +33,6 @@ public class thome extends HttpServlet {
         int choice = Integer.parseInt(request.getParameter("choice"));
         if(choice==1){
             //creating a classroom
-            tid = 1;
             String subject = request.getParameter("subject");
             String branch = request.getParameter("branch");
             String section = request.getParameter("section");

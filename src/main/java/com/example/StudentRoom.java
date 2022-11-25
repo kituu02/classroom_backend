@@ -29,13 +29,14 @@ public class StudentRoom extends HttpServlet{
         int cid = Integer.parseInt(request.getParameter("cid"));
         int choice = Integer.parseInt(request.getParameter("choice"));
         int login_id  = Integer.parseInt(request.getParameter("login_id"));
+        int innerchoice = 1;
         //out.print(choice);
         JsonObject object = new JsonObject();
         try{
             Class.forName(connections.driver);
             Connection con = DriverManager.getConnection(connections.url,connections.name,connections.password);
             Statement st = con.createStatement();
-            if(choice==1){
+            if(choice==0){
                 //show students
                 String query = "select * from classrooms where cid = '"+cid+"' ; ";
                 ResultSet rs = st.executeQuery(query);
@@ -63,10 +64,20 @@ public class StudentRoom extends HttpServlet{
                     object.addProperty("message","Invalid");
                 }
             }
-            else if(choice == 2){
+            else if(choice == 1){
+                //send message
+                    String new_message = request.getParameter("message");
+                    String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+cid+"','"+login_id+"',0); ";
+                    Statement st0 = con.createStatement();
+                    int result = st0.executeUpdate(query0);
+                    if(result>0){
+                        object.addProperty("status", "success");
+                        object.addProperty("status code", "200");
+                    }
+                    
                 //discussions forms
                 String query = "select * from forms_message_table where cid = '"+cid+"';";
-                out.print(cid);
+                //out.print(cid);
                 ResultSet rs = st.executeQuery(query);
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
@@ -75,7 +86,7 @@ public class StudentRoom extends HttpServlet{
                     String innerquery = "select * from sdetails where sid = '"+sid+"';";
                     String message = rs.getString("message");
                     int reactions = rs.getInt("reactions");
-                    out.print(message);
+                    //out.print(message);
                     Connection con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
                     Statement st1 = con1.createStatement();
                     ResultSet rs1 = st1.executeQuery(innerquery);
@@ -87,7 +98,7 @@ public class StudentRoom extends HttpServlet{
                     new_obj.addProperty("message",message);
                     new_obj.addProperty("array_length",reactions);
                     list_of_messages.add(new_obj);
-                    out.println(sid);
+                    //out.println(sid);
                     while(rs.next()){
                         new_obj = new JsonObject();
                     sid = rs.getString("sid");
@@ -104,7 +115,7 @@ public class StudentRoom extends HttpServlet{
                     new_obj.addProperty("message",message);
                     new_obj.addProperty("array_length",reactions);
                     list_of_messages.add(new_obj);
-                    out.println(sid);
+                    //out.println(sid);
                     }
                     object.addProperty("status", "success");
                 object.addProperty("status code", "200");
@@ -115,6 +126,62 @@ public class StudentRoom extends HttpServlet{
                     object.addProperty("status code","404");
                     object.addProperty("message","Invalid");
                 }
+                
+                
+            }
+            else if(choice == 2){
+                //discussions forms
+                String query = "select * from forms_message_table where cid = '"+cid+"';";
+                //out.print(cid);
+                ResultSet rs = st.executeQuery(query);
+                JsonArray list_of_messages = new JsonArray();
+                JsonObject new_obj = new JsonObject();
+                if(rs.next()){
+                    String sid = rs.getString("sid");
+                    String innerquery = "select * from sdetails where sid = '"+sid+"';";
+                    String message = rs.getString("message");
+                    int reactions = rs.getInt("reactions");
+                    //out.print(message);
+                    Connection con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
+                    Statement st1 = con1.createStatement();
+                    ResultSet rs1 = st1.executeQuery(innerquery);
+                    String name = new String();
+                    if(rs1.next()){
+                        name = rs1.getString("name");
+                    }
+                    new_obj.addProperty("name", name);
+                    new_obj.addProperty("message",message);
+                    new_obj.addProperty("array_length",reactions);
+                    list_of_messages.add(new_obj);
+                    //out.println(sid);
+                    while(rs.next()){
+                        new_obj = new JsonObject();
+                    sid = rs.getString("sid");
+                    innerquery = "select * from sdetails where sid = '"+sid+"';";
+                    message = rs.getString("message");
+                    reactions = rs.getInt("reactions");
+                    con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
+                    st1 = con1.createStatement();
+                    rs1 = st1.executeQuery(innerquery);
+                    if(rs1.next()){
+                        name = rs1.getString("name");
+                    }
+                    new_obj.addProperty("name", name);
+                    new_obj.addProperty("message",message);
+                    new_obj.addProperty("array_length",reactions);
+                    list_of_messages.add(new_obj);
+                    //out.println(sid);
+                    }
+                    object.addProperty("status", "success");
+                object.addProperty("status code", "200");
+                object.add("details", list_of_messages);
+                }
+                else{
+                    object.addProperty("status","failed");
+                    object.addProperty("status code","404");
+                    object.addProperty("message","Invalid");
+                }
+                
                 
             }
             else if(choice ==3){
@@ -147,6 +214,7 @@ public class StudentRoom extends HttpServlet{
                     object.addProperty("status code","404");
                     object.addProperty("message","Invalid");
                 }
+               
             }
             else if(choice==4){
                 //Talk to teacher
@@ -155,41 +223,41 @@ public class StudentRoom extends HttpServlet{
                 ResultSet rs0 = st0.executeQuery(query0);
                 rs0.next();
                 String tid = rs0.getString("tid");
-                out.println(tid);
-                out.print("hii1");
+                st0.close();
                 String query1 = "select * from sdetails where sid = '"+login_id+"';";
                 String query2 = "select * from tdetails where tid = '"+tid+"';";
                 Statement st1 = con.createStatement();
                 ResultSet rs1 = st1.executeQuery(query1);
                 rs1.next();
                 String student_name = rs1.getString("name");
-                out.println("hii2");
+                st1.close();
                 Statement st2 = con.createStatement();
                 ResultSet rs2 = st2.executeQuery(query2);
-                // rs2.next();
-                // String teacher_name = rs2.getString("tname");
-                out.print("hii3");
+                rs2.next();
+                String teacher_name = rs2.getString("tname");
+                st2.close();
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 String query = "select * from individual_message_table where sid = '"+login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
-                // ResultSet rs = st.executeQuery(query);
-                // rs.next();
-                // while(rs.next()){
-                //     int sender = rs.getInt("sender");
-                //     String message = rs.getString("message");
-                //     if(sender==0){
-                //         new_obj.addProperty("sender", "teacher");
-                //     }
-                //     else{
-                //         new_obj.addProperty("sender", "student");
-                //     }
-                //     new_obj.addProperty("message", message);
-                //     list_of_messages.add(new_obj);
-                // }
+                ResultSet rs = st.executeQuery(query);
+                rs.next();
+                while(rs.next()){
+                    new_obj = new JsonObject();
+                    int sender = rs.getInt("sender");
+                    String message = rs.getString("message");
+                    if(sender==0){
+                        new_obj.addProperty("sender", "teacher");
+                    }
+                    else{
+                        new_obj.addProperty("sender", "student");
+                    }
+                    new_obj.addProperty("message", message);
+                    list_of_messages.add(new_obj);
+                }
                 object.addProperty("status","success");
                 object.addProperty("status code","200");
                 object.addProperty("student name", student_name);
-                //object.addProperty("faculty name", teacher_name);
+                object.addProperty("faculty name", teacher_name);
                 object.add("messages", list_of_messages);
                 
                 
