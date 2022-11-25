@@ -65,41 +65,19 @@ public class StudentRoom extends HttpServlet{
             else if(choice == 2){
                 //discussions forms
                 String query = "select * from forms_message_table where cid = '"+cid+"';";
-                //out.print(cid);
+                out.print(cid);
                 ResultSet rs = st.executeQuery(query);
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 if(rs.next()){
-                    out.print("fcuk");
+                    out.println("fcuk..........");
                     String sid = rs.getString("sid");
                     String innerquery = "select * from sdetails where sid = '"+sid+"';";
                     String message = rs.getString("message");
                     Array arr = rs.getArray("reactions");
-                    String[] zips = (String[])arr.getArray();
+                    //int len_of_array = ((String[])arr.getArray()).length;
                     ResultSet rs1 = st.executeQuery(innerquery);
-                    String name = rs1.getString("name");
-                    out.print(name);
-                    
-                    //new_obj.addProperty("name", name);
-                    //new_obj.addProperty("message",message);
-                    //new_obj.addProperty("array_length",zips.length);
-                    list_of_messages.add(new_obj);
-                    // while(rs.next()){
-                    // sid = rs.getString("sid");
-                    // innerquery = "select * from sdetails where sid = '"+sid+"';";
-                    // rs1 = st.executeQuery(innerquery);
-                    // name = rs1.getString("name");
-                    // message = rs.getString("message");
-                    // arr = rs.getArray("reactions");
-                    // zips = (String[])arr.getArray();
-                    // new_obj.addProperty("name", name);
-                    // new_obj.addProperty("message",message);
-                    // new_obj.addProperty("array_length",zips.length);
-                    // list_of_messages.add(new_obj);
-                    // }
-                    object.addProperty("statues", "success");
-                    object.addProperty("status code", "200");
-                    object.add("details", list_of_messages);
+                    out.println(sid);
 
                 }
                 else{
@@ -107,9 +85,9 @@ public class StudentRoom extends HttpServlet{
                     object.addProperty("status code","404");
                     object.addProperty("message","Invalid");
                 }
-                object.addProperty("statues", "success");
-                object.addProperty("status code", "200");
-                object.add("details", list_of_messages);
+                // object.addProperty("statues", "success");
+                // object.addProperty("status code", "200");
+                // object.add("details", list_of_messages);
             }
             else if(choice ==3){
                 //material

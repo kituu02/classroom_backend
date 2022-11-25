@@ -37,11 +37,14 @@ public class sregister extends HttpServlet{
         String password = request.getParameter("password");
         JsonObject object = new JsonObject();
 
+        int year = Integer.parseInt(batch.substring(2));
+        batch = batch.substring(2)+Integer.toString(year+4);
+
         String query1 = "insert into sdetails (name,email,branch,section,rollno,batch,ph_no) values ('"+name+"','"+email+"','"+branch+"','"+section+"','"+rollno+"','"+batch+"','"+phno+"');";
         String query2 = "insert into slogin (email,password) values ('"+email+"','"+password+"');";
 
 
-
+        
 
 
         // Take a secret key.

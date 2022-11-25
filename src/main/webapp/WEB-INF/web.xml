@@ -47,7 +47,7 @@
   </servlet>
   <servlet>
     <servlet-name>StudentRoom</servlet-name>
-    <servlet-class>com.example.TeacherRoom</servlet-class>    
+    <servlet-class>com.example.StudentRoom</servlet-class>    
   </servlet>
   
 
