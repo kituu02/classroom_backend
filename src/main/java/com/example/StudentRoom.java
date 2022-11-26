@@ -194,8 +194,7 @@ public class StudentRoom extends HttpServlet{
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 String query = "select * from individual_message_table where sid = '"+login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
-                ResultSet rs = st.executeQuery(query);
-                rs.next();
+                ResultSet rs = st.executeQuery(query);            
                 while(rs.next()){
                     new_obj = new JsonObject();
                     int sender = rs.getInt("sender");
