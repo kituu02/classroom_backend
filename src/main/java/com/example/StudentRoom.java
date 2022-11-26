@@ -102,6 +102,7 @@ public class StudentRoom extends HttpServlet{
                     if(rs1.next()){
                         name = rs1.getString("name");
                     }
+                    new_obj.addProperty("sid", sid);
                     new_obj.addProperty("name", name);
                     new_obj.addProperty("message",message);
                     new_obj.addProperty("array_length",reactions);
