@@ -196,6 +196,7 @@ public class TeacherRoom extends HttpServlet{
                 //add material
                 String mat_name = request.getParameter("mat_name");
                 String mat_link = request.getParameter("mat_link");
+                String query = "insert into material_links values('"+cid+"','"+mat_name+"','"+mat_link+"');";
                 
                 
 

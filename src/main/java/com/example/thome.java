@@ -37,6 +37,8 @@ public class thome extends HttpServlet {
             String branch = request.getParameter("branch");
             String section = request.getParameter("section");
             String batch = request.getParameter("batch");
+            int year = Integer.parseInt(batch.substring(2));
+            batch = batch.substring(2)+Integer.toString(year+4);
             String query = "  insert into classrooms (branch,section,subject,tid,batch) values ('"+branch+"','"+section+"','"+subject+"','"+tid+"','"+batch+"');";
             try {
                 Class.forName(connections.driver);
