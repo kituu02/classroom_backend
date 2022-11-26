@@ -76,6 +76,7 @@ public class slogin extends HttpServlet {
                 object.addProperty("message", "Invalid Details");
                 out.print(object);
             }
+            con.close();
 
         } catch (Exception e) {
             object.addProperty("status", "failed");

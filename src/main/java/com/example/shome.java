@@ -52,19 +52,26 @@ public class shome extends HttpServlet {
                     new_obj = new JsonObject();
                     new_obj.addProperty("cid", rs1.getString("cid"));
                     new_obj.addProperty("subject",rs1.getString("subject"));
-                    
+                    new_obj.addProperty("tid",rs1.getString("tid"));
+                    Statement st2 = con.createStatement();
+                    ResultSet rs2 = st2.executeQuery("select * from tdetails where tid = '"+rs1.getString("tid")+"';");
+                    rs2.next();
+                    new_obj.addProperty("tname",rs2.getString("tname"));
+                    st2.close();
                     list_of_classes.add(new_obj);
                 }
                 //out.print(new_obj);
                 object.addProperty("statues", "success");
                 object.addProperty("status code", "200");
                 object.add("details", list_of_classes);
+                st.close();
             }
             else{
                 object.addProperty("status","failed");
                 object.addProperty("status code","404");
                 object.addProperty("message","Invalid");
             }
+            con.close();
         }
         catch(Exception e){
             object.addProperty("status","failed");
