@@ -62,6 +62,7 @@ public class tlogin extends HttpServlet {
                 object.addProperty("statues", "success");
                 object.addProperty("status code", "200");
                 object.addProperty("tid", rs.getString("tid"));
+                object.addProperty("tname",rs.getString("tname"));
                 // object.addProperty("password", rs.getString("password"));
                 // object.addProperty("token", jwtToken);
                 out.print(object);

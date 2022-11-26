@@ -62,6 +62,7 @@ public class slogin extends HttpServlet {
                 object.addProperty("statues", "success");
                 object.addProperty("status code", "200");
                 object.addProperty("sid", rs.getString("sid"));
+                object.addProperty("name", rs.getString("name"));
                 // object.addProperty("password", rs.getString("password"));
                 // object.addProperty("token", jwtToken);
                 out.print(object);
