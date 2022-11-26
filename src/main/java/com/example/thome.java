@@ -49,6 +49,7 @@ public class thome extends HttpServlet {
                     object.addProperty("status","success");
                     object.addProperty("status code","200");
                     //object.addProperty("token",jwtToken);
+                    st.close();
                     out.print(object);
                 }
                 else{
@@ -56,6 +57,7 @@ public class thome extends HttpServlet {
                     object.addProperty("status code","404");
                     object.addProperty("message","Invalid credentials");
                 }
+                con.close();
             }
             catch(Exception e){
                 object.addProperty("status","failed");

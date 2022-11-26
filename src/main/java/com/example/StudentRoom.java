@@ -238,6 +238,7 @@ public class StudentRoom extends HttpServlet{
                     object.addProperty("message","Invalid");
                 }
             }
+            con.close();
         }
         catch(Exception e){
             object.addProperty("status","failed");

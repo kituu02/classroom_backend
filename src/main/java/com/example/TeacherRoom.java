@@ -89,48 +89,65 @@ public class TeacherRoom extends HttpServlet{
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
                 if(rs.next()){
+                    Statement st1 = con.createStatement();
                     String sid = rs.getString("sid");
                     if(Integer.parseInt(sid)<0){
                         int tid = Integer.parseInt(sid)*(-1);
-                        //string inner_query;
+                        String inner_query = "select * from tdetails where tid = '"+tid+"';";
+                        ResultSet rs1 = st1.executeQuery(inner_query);
+                        rs1.next();
+                        new_obj.addProperty("name", rs1.getString("tname"));
+                        new_obj.addProperty("sender", "faculty");
                     }
-                    String innerquery = "select * from sdetails where sid = '"+sid+"';";
+                    else{
+                        String inner_query = "select * from sdetails where sid = '"+sid+"';";
+                        
+                        ResultSet rs1 = st1.executeQuery(inner_query);
+                        String name = new String();
+                        if(rs1.next()){
+                            name = rs1.getString("name");
+                        }
+                        new_obj.addProperty("name", name);
+                        new_obj.addProperty("sender", "student");
+                    }
                     String message = rs.getString("message");
                     int reactions = rs.getInt("reactions");
-                    //out.print(message);
-                    Connection con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
-                    Statement st1 = con1.createStatement();
-                    ResultSet rs1 = st1.executeQuery(innerquery);
-                    String name = new String();
-                    if(rs1.next()){
-                        name = rs1.getString("name");
-                    }
-                    new_obj.addProperty("name", name);
                     new_obj.addProperty("message",message);
                     new_obj.addProperty("array_length",reactions);
                     list_of_messages.add(new_obj);
-                    //out.println(sid);
                     while(rs.next()){
-                        new_obj = new JsonObject();
-                    sid = rs.getString("sid");
-                    innerquery = "select * from sdetails where sid = '"+sid+"';";
-                    message = rs.getString("message");
-                    reactions = rs.getInt("reactions");
-                    con1 = DriverManager.getConnection(connections.url,connections.name,connections.password);
-                    st1 = con1.createStatement();
-                    rs1 = st1.executeQuery(innerquery);
-                    if(rs1.next()){
-                        name = rs1.getString("name");
+                        st1 = con.createStatement();
+                        sid = rs.getString("sid");
+                        if(Integer.parseInt(sid)<0){
+                            int tid = Integer.parseInt(sid)*(-1);
+                            String inner_query = "select * from tdetails where tid = '"+tid+"';";
+                            ResultSet rs1 = st1.executeQuery(inner_query);
+                            rs1.next();
+                            new_obj.addProperty("name", rs1.getString("tname"));
+                            new_obj.addProperty("sender","faculty");
+                        }
+                        else{
+                            String inner_query = "select * from sdetails where sid = '"+sid+"';";
+                            
+                            ResultSet rs1 = st1.executeQuery(inner_query);
+                            String name = new String();
+                            if(rs1.next()){
+                                name = rs1.getString("name");
+                            }
+                            new_obj.addProperty("name", name);
+                            new_obj.addProperty("sender", "student");
+                        }
+                        message = rs.getString("message");
+                        reactions = rs.getInt("reactions");
+                        new_obj.addProperty("message",message);
+                        new_obj.addProperty("array_length",reactions);
+                        list_of_messages.add(new_obj);
                     }
-                    new_obj.addProperty("name", name);
-                    new_obj.addProperty("message",message);
-                    new_obj.addProperty("array_length",reactions);
-                    list_of_messages.add(new_obj);
-                    //out.println(sid);
-                    }
+                    
+                  
                     object.addProperty("status", "success");
-                object.addProperty("status code", "200");
-                object.add("details", list_of_messages);
+                    object.addProperty("status code", "200");
+                    object.add("details", list_of_messages);
                 }
                 else{
                     object.addProperty("status","failed");
