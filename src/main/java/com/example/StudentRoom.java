@@ -49,6 +49,7 @@ public class StudentRoom extends HttpServlet{
                     JsonArray list_of_students = new JsonArray();
                     JsonObject new_obj = new JsonObject();
                     while(rs1.next()){
+                        new_obj =  new JsonObject();
                         new_obj.addProperty("sid", rs1.getString("sid"));
                         new_obj.addProperty("name",rs1.getString("name"));
                         new_obj.addProperty("Rollno",rs1.getString("Rollno"));

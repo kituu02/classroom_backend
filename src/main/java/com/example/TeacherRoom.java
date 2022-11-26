@@ -197,19 +197,36 @@ public class TeacherRoom extends HttpServlet{
                 String mat_name = request.getParameter("mat_name");
                 String mat_link = request.getParameter("mat_link");
                 String query = "insert into material_links values('"+cid+"','"+mat_name+"','"+mat_link+"');";
-                
-                
+                int result = st.executeUpdate(query);
+                if(result>0){
+                    object.addProperty("status", "success");
+                    object.addProperty("status code", "200");
+                }
+                else{
+                    object.addProperty("status","failed");
+                    object.addProperty("status code","404");
+                    object.addProperty("message","Invalid");
+                }
 
             }
             else if(choice==5){
                 String new_message = request.getParameter("new_message");
-                String query0 = "select * from classrooms where cid = '"+cid+"';";
-                Statement st0 = con.createStatement();
-                ResultSet rs0 = st0.executeQuery(query0);
-                rs0.next();
-                String tid = rs0.getString("tid");
-                st0.close();
-                String query = "insert into individual_message_table values(default,'"+tid+"','"+cid+"','"+t_login_id+"','1','"+new_message+"');";
+                String new_sid = request.getParameter("new_sid");
+                String query = "insert into individual_message_table values(default,'"+t_login_id+"','"+cid+"','"+new_sid+"','0','"+new_message+"');";
+                int result = st.executeUpdate(query);
+                if(result>0){
+                    object.addProperty("status","success");
+                    object.addProperty("status code","200");
+                }
+                else{
+                    object.addProperty("status","failed");
+                    object.addProperty("status code","404");
+                    object.addProperty("message","Invalid");
+                }
+            }
+            else if(choice==6){
+                String new_sid = request.getParameter("new_sid");
+                String query = "select * from individual_message_table where sid = '"+new_sid+"';";
                 int result = st.executeUpdate(query);
                 if(result>0){
                     object.addProperty("status","success");
