@@ -28,7 +28,7 @@ public class TeacherRoom extends HttpServlet{
         PrintWriter out = response.getWriter();
         int cid = Integer.parseInt(request.getParameter("cid"));
         int choice = Integer.parseInt(request.getParameter("choice"));
-        int login_id  = Integer.parseInt(request.getParameter("login_id"));
+        int t_login_id  = Integer.parseInt(request.getParameter("t_login_id"));
         JsonObject object = new JsonObject();
         try{
             Class.forName(connections.driver);
@@ -65,7 +65,8 @@ public class TeacherRoom extends HttpServlet{
             else if(choice == 1){
                 //send message
                     String new_message = request.getParameter("message");
-                    String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+cid+"','"+login_id+"',0); ";
+                    int new_cid = cid*(-1);
+                    String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+new_cid+"','"+t_login_id+"',0); ";
                     Statement st0 = con.createStatement();
                     int result = st0.executeUpdate(query0);
                 if(result>0){
@@ -175,7 +176,7 @@ public class TeacherRoom extends HttpServlet{
                 rs0.next();
                 String tid = rs0.getString("tid");
                 st0.close();
-                String query1 = "select * from sdetails where sid = '"+login_id+"';";
+                String query1 = "select * from sdetails where sid = '"+t_login_id+"';";
                 String query2 = "select * from tdetails where tid = '"+tid+"';";
                 Statement st1 = con.createStatement();
                 ResultSet rs1 = st1.executeQuery(query1);
@@ -189,7 +190,7 @@ public class TeacherRoom extends HttpServlet{
                 st2.close();
                 JsonArray list_of_messages = new JsonArray();
                 JsonObject new_obj = new JsonObject();
-                String query = "select * from individual_message_table where sid = '"+login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
+                String query = "select * from individual_message_table where sid = '"+t_login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
                 ResultSet rs = st.executeQuery(query);
                 rs.next();
                 while(rs.next()){
@@ -222,7 +223,7 @@ public class TeacherRoom extends HttpServlet{
                 rs0.next();
                 String tid = rs0.getString("tid");
                 st0.close();
-                String query = "insert into individual_message_table values(default,'"+tid+"','"+cid+"','"+login_id+"','1','"+new_message+"');";
+                String query = "insert into individual_message_table values(default,'"+tid+"','"+cid+"','"+t_login_id+"','1','"+new_message+"');";
                 int result = st.executeUpdate(query);
                 if(result>0){
                     object.addProperty("status","success");
