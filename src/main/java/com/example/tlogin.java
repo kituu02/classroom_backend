@@ -58,13 +58,17 @@ public class tlogin extends HttpServlet {
                 // creating the json token.
                 // String jwtToken = Jwts.builder().claim("email",
                 // email).signWith(hmac).compact();
-
+                Statement st1 = con.createStatement();
+                ResultSet rs1 = st1.executeQuery("select * from tdetails where tid = '"+rs.getString("tid")+"';");
+                rs1.next();
                 object.addProperty("statues", "success");
                 object.addProperty("status code", "200");
                 object.addProperty("tid", rs.getString("tid"));
-                object.addProperty("tname",rs.getString("tname"));
+                object.addProperty("tname",rs1.getString("tname"));
                 // object.addProperty("password", rs.getString("password"));
                 // object.addProperty("token", jwtToken);
+                st1.close();
+                st.close();
                 out.print(object);
             } else {
                 object.addProperty("statues", "failed");

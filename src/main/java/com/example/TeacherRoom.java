@@ -65,8 +65,8 @@ public class TeacherRoom extends HttpServlet{
             else if(choice == 1){
                 //send message
                     String new_message = request.getParameter("message");
-                    int new_cid = cid*(-1);
-                    String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+new_cid+"','"+t_login_id+"',0); ";
+                    int new_tid = t_login_id*(-1);
+                    String query0 = "insert into forms_message_table values(default,'"+new_message+"','"+cid+"','"+new_tid+"',0); ";
                     Statement st0 = con.createStatement();
                     int result = st0.executeUpdate(query0);
                 if(result>0){
@@ -90,6 +90,10 @@ public class TeacherRoom extends HttpServlet{
                 JsonObject new_obj = new JsonObject();
                 if(rs.next()){
                     String sid = rs.getString("sid");
+                    if(Integer.parseInt(sid)<0){
+                        int tid = Integer.parseInt(sid)*(-1);
+                        //string inner_query;
+                    }
                     String innerquery = "select * from sdetails where sid = '"+sid+"';";
                     String message = rs.getString("message");
                     int reactions = rs.getInt("reactions");
