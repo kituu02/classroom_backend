@@ -116,6 +116,7 @@ public class TeacherRoom extends HttpServlet{
                     new_obj.addProperty("array_length",reactions);
                     list_of_messages.add(new_obj);
                     while(rs.next()){
+                        new_obj = new JsonObject();
                         st1 = con.createStatement();
                         sid = rs.getString("sid");
                         if(Integer.parseInt(sid)<0){
@@ -148,6 +149,8 @@ public class TeacherRoom extends HttpServlet{
                     object.addProperty("status", "success");
                     object.addProperty("status code", "200");
                     object.add("details", list_of_messages);
+                    st1.close();
+                    
                 }
                 else{
                     object.addProperty("status","failed");
@@ -213,7 +216,7 @@ public class TeacherRoom extends HttpServlet{
                 JsonObject new_obj = new JsonObject();
                 String query = "select * from individual_message_table where sid = '"+t_login_id+"' and tid = '"+tid+"' and cid = '"+cid+"';";
                 ResultSet rs = st.executeQuery(query);
-                rs.next();
+                //rs.next();
                 while(rs.next()){
                     new_obj = new JsonObject();
                     int sender = rs.getInt("sender");
